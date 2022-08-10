@@ -2,12 +2,12 @@ import tensorflow as tf
 import os
 import numpy as np
 
-selectCharacter = "ㄱ"
-differCharacter = "ㅜ"
+selectCharacter = "ㄷ"
+differCharacter = "ㄴ"
 dic = {"ㄱ":"a","ㄴ":"b","ㄷ":"c","ㄹ":"d","ㅁ":"e","ㅂ":"f","ㅅ":"g","ㅇ":"h","ㅈ":"i","ㅊ":"j","ㅋ":"k","ㅌ":"l","ㅍ":"m","ㅎ":"n","ㅏ":"o","ㅓ":"p","ㅗ":"q","ㅜ":"r","ㅡ":"s","ㅣ":"t","ㅑ":"u","ㅕ":"v","ㅛ":"w","ㅠ":"x","ㅐ":"y","ㅒ":"z","ㅔ":"a1","ㅖ":"b1"}
 
 # 1 = 정, 2 = 역, 3 = 다른 
-select = 2
+select = 1
 
 rightdatafilename = './data/'+ dic[selectCharacter] + '_right.txt'
 reversedatafilename = './data/'+ dic[selectCharacter] + '_reverse.txt'
@@ -33,7 +33,7 @@ test_labels = []
 for i in range(len(strings)):
     string = strings[i].strip('\n')
     if i % 3 == 0:
-        if selectCharacter == string:
+        if selectCharacter == string and select == 1:
             test_labels.append(1)
         else:
             test_labels.append(0)
@@ -69,7 +69,7 @@ model = tf.keras.models.load_model(modelname)
 
 for i in range(len(test_labels)):
     prediction = model.predict(test_data[i].reshape(1, 50, 2))
-    print('실제: ', test_labels[i], ', 예측: ', prediction)
+    print('실제 라벨: ', test_labels[i], ', 예측 라벨: ', prediction)
 print("검사 모델: ", selectCharacter)
 if select == 1:
     print("선택한 글씨: ", selectCharacter, "정방향")

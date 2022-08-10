@@ -6,7 +6,8 @@ from sklearn.model_selection import train_test_split
 # 그래픽 카드 설정
 os.environ["CUDA_VISIBLE_DEVICES"]='0' 
 
-selectCharacter = "ㄱ"
+selectCharacter = "ㄷ"
+targetCharacters = ["ㄱ","ㄴ","ㄷ","ㄹ","ㅁ","ㅂ","ㅅ","ㅇ","ㅈ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ","ㅏ","ㅓ","ㅗ","ㅜ","ㅡ","ㅣ","ㅑ","ㅕ","ㅛ","ㅠ","ㅐ","ㅒ","ㅔ","ㅖ"] 
 dic = {"ㄱ":"a","ㄴ":"b","ㄷ":"c","ㄹ":"d","ㅁ":"e","ㅂ":"f","ㅅ":"g","ㅇ":"h","ㅈ":"i","ㅊ":"j","ㅋ":"k","ㅌ":"l","ㅍ":"m","ㅎ":"n","ㅏ":"o","ㅓ":"p","ㅗ":"q","ㅜ":"r","ㅡ":"s","ㅣ":"t","ㅑ":"u","ㅕ":"v","ㅛ":"w","ㅠ":"x","ㅐ":"y","ㅒ":"z","ㅔ":"a1","ㅖ":"b1"}
 
 filedataname = "./data/" + dic[selectCharacter]+ "_data.npy"
@@ -27,7 +28,9 @@ print(y_train.shape)
 # print(x_train[5])
 
 batch = 64
-epoch = 50
+epoch = 100
+
+print("학습 시킬 모델: ", selectCharacter)
 
 model = tf.keras.models.Sequential()
 model.add(tf.keras.layers.LSTM(32, activation = 'relu', input_shape = (x_train.shape[1], x_train.shape[2])))
@@ -35,8 +38,8 @@ model.add(tf.keras.layers.Dense(1, activation = 'sigmoid'))
 model.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics=['accuracy'])
 model.summary
 
-early_stopping = tf.keras.callbacks.EarlyStopping(monitor = 'loss', patience = 100, mode = 'auto')
-hist = model.fit(x_train, y_train, batch_size = batch, epochs = epoch, verbose = 1, validation_data=(x_valid, y_valid))
+# early_stopping = tf.keras.callbacks.EarlyStopping(monitor = 'loss', patience = 20, mode = 'auto')
+hist = model.fit(x_train, y_train, batch_size = batch, epochs = epoch, verbose = 2, validation_data=(x_valid, y_valid))
 
 model.evaluate(x_valid, y_valid, verbose = 1)
 
