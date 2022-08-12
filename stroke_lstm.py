@@ -8,11 +8,12 @@ from sklearn.model_selection import train_test_split
 os.environ["CUDA_VISIBLE_DEVICES"]='0' 
 
 consonant = ["A","B","C","D","E","F","G","H","I"] # 모양에 따른 자음 한-획순 데이터
-dic = {"ㄱ":"a","ㄴ":"b","ㄷ":"c","ㄹ":"d","ㅁ":"e","ㅂ":"f","ㅅ":"g","ㅇ":"h","ㅈ":"i","ㅊ":"j","ㅋ":"k","ㅌ":"l","ㅍ":"m","ㅎ":"n","ㅏ":"o","ㅓ":"p","ㅗ":"q","ㅜ":"r","ㅡ":"s","ㅣ":"t","ㅑ":"u","ㅕ":"v","ㅛ":"w","ㅠ":"x","ㅐ":"y","ㅒ":"z","ㅔ":"a1","ㅖ":"b1"}
-stroke_kind = {"A":"a1, d1, e1, k1", "B":"b1, c2, d3, l3", "C": "c1, d2, e3, f3, f4, k2, l1, l2, m1, m4, n2", "D":"e1, f1, f2, m2, m3", "E":"g1", "F":"g2, i2, j3", "G":"h1, n3", "H":"i1, j2", "I":"j1, n1"}
-stroke_differ_except = {"A":["A", "H"], "B":["B"], "C":["C","I"], "D":["D", "I"], "E": ["E"], "F": ["F", "I"], "G": ["G"], "H": ["H", "A"], "I": ["C", "D", "F", "I"]}
+vowel = ["J", "K"]
+stroke_kind = {"A":"a1, d1, e1, k1", "B":"b1, c2, d3, l3", "C": "c1, d2, e3, f3, f4, k2, l1, l2, m1, m4, n2", "D":"e1, f1, f2, m2, m3", "E":"g1", "F":"g2, i2, j3", "G":"h1, n3", "H":"i1, j2", "I":"j1, n1",
+                "J": "o2, p1, q2, r1, s1, u2, u3, v1, v2, w3, x1", "K" : "o1, p2, q1, r2, t1, u1, v3, w1, w2, x2, x3"}
+stroke_differ_except = {"A":["A", "H"], "B":["B"], "C":["C","I"], "D":["D", "I"], "E": ["E"], "F": ["F", "I"], "G": ["G"], "H": ["H", "A"], "I": ["C", "D", "F", "I"], "J": ["J", "C", "I"], "K": ["D", "I", "K"]}
 
-selectStroke = "I"
+selectStroke = "K"
 
 # 정순, 역순 데이터 로드
 right_data_name = "./stroke_data/" + selectStroke + "_right_data.npy"
@@ -34,6 +35,16 @@ if selectStroke in consonant:
             wrong_reverse_data = np.load("./stroke_data/" + ch + "_reverse_data.npy")
             wrong_data = np.append(wrong_data, wrong_right_data, axis=0)
             wrong_data = np.append(wrong_data, wrong_reverse_data, axis=0)
+elif selectStroke in vowel:
+    differ_except = stroke_differ_except[selectStroke]
+    for ch in vowel + consonant:
+        if ch not in differ_except:
+            print("잘못된 데이터에 추가할 형태: ",ch)
+            wrong_right_data = np.load("./stroke_data/" + ch + "_right_data.npy")
+            wrong_reverse_data = np.load("./stroke_data/" + ch + "_reverse_data.npy")
+            wrong_data = np.append(wrong_data, wrong_right_data, axis=0)
+            wrong_data = np.append(wrong_data, wrong_reverse_data, axis=0)
+
 
 print("맞는 형태의 획순 데이터 개수: ", right_data.shape)
 print("맞지만 역순 형태의 획순 데이터 개수: ", reverse_data.shape)
@@ -62,7 +73,7 @@ print(y_train.shape)
 # print(x_train[ind])
 
 batch = 32
-epoch = 30
+epoch = 50
 
 print("학습 시킬 모델: ", selectStroke)
 

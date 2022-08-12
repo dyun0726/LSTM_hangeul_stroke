@@ -4,9 +4,9 @@ import os
 os.environ["CUDA_VISIBLE_DEVICES"]='0'
 
 selectCharacter = "ㄷ"
-consonant = ["A","B","C","D","E","F","G","H","I"] 
+chlist = ["A","B","C","D","E","F","G","H","I","J","K"] 
 
-for ch in consonant:
+for ch in chlist:
     modelname = './stroke_well_trained/'+ ch + '.h5'
     modelTFname = './stroke_tflite/stroke_'+ ch.lower() + '.tflite'
 
