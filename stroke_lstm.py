@@ -11,9 +11,9 @@ consonant = ["A","B","C","D","E","F","G","H","I"] # 모양에 따른 자음 한-
 vowel = ["J", "K"]
 stroke_kind = {"A":"a1, d1, e1, k1", "B":"b1, c2, d3, l3", "C": "c1, d2, e3, f3, f4, k2, l1, l2, m1, m4, n2", "D":"e1, f1, f2, m2, m3", "E":"g1", "F":"g2, i2, j3", "G":"h1, n3", "H":"i1, j2", "I":"j1, n1",
                 "J": "o2, p1, q2, r1, s1, u2, u3, v1, v2, w3, x1", "K" : "o1, p2, q1, r2, t1, u1, v3, w1, w2, x2, x3"}
-stroke_differ_except = {"A":["A", "H"], "B":["B"], "C":["C","I"], "D":["D", "I"], "E": ["E"], "F": ["F", "I"], "G": ["G"], "H": ["H", "A"], "I": ["C", "D", "F", "I"], "J": ["J", "C", "I"], "K": ["D", "I", "K"]}
+stroke_differ_except = {"A":["A", "H"], "B":["B"], "C":["C","I"], "D":["D", "I", "E", "F"], "E": ["E"], "F": ["F", "I"], "G": ["G"], "H": ["H", "A"], "I": ["C", "D", "F", "I"], "J": ["J", "C", "I"], "K": ["D", "I", "K"]}
 
-selectStroke = "K"
+selectStroke = "D"
 
 # 정순, 역순 데이터 로드
 right_data_name = "./stroke_data/" + selectStroke + "_right_data.npy"
